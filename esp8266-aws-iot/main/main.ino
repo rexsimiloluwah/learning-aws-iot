@@ -16,7 +16,8 @@
 
 // Pin mapping
 const uint8_t dht_pin = 4;
-const uint8_t led_pin = 5;
+const uint8_t green_led_pin = 5; // Indicator
+const uint8_t red_led_pin = 12; // Led pin controlled via AWS IoT
 unsigned long last_publish = 0;
 unsigned long publish_interval = 10000; // 10s
 
@@ -74,8 +75,12 @@ void setupAWSIoTConnection(void){
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(BAUD_RATE);
-  pinMode(led_pin, OUTPUT);
-  digitalWrite(led_pin, HIGH);
+  pinMode(green_led_pin, OUTPUT);
+  pinMode(red_led_pin, OUTPUT);
+  // Set the initial state of the Green led pin to HIGH (+3.3V)
+  digitalWrite(green_led_pin, HIGH);
+  // Set initial state of the Red led pin to LOW (0V)
+  digitalWrite(red_led_pin, LOW);
   connectToWiFi();
   setupAWSIoTConnection();
 
@@ -151,9 +156,9 @@ void loop() {
     last_publish = millis();
   }
   
-  digitalWrite(led_pin, HIGH);
+  digitalWrite(green_led_pin, HIGH);
   delay(1000);
-  digitalWrite(led_pin, LOW);
+  digitalWrite(green_led_pin, LOW);
   delay(1000);
 }
 
@@ -171,7 +176,8 @@ void pubSubConnectCheck(void){
     }
     // After connection is successful
     Serial.println("Successful established PUB/SUB connection with AWS IoT MQTT Broker.");
-    pubSubClient.subscribe("esp8266/in/topic");
+    // Subscribe to Shadow Update topic
+    pubSubClient.subscribe("$aws/things/sample-device/shadow/update/delta");
   }
   pubSubClient.loop();
 }
@@ -196,6 +202,26 @@ void msgReceived(char* topic, byte* payload, unsigned int length) {
   Serial.print(": ");
   for (int i = 0; i < length; i++) {
     Serial.print((char)payload[i]);
+  }
+  if(strcmp(topic,"$aws/things/sample-device/shadow/update/delta")==0){
+    Serial.println("Device Shadow Document has been updated");
+    // Deserialization of the received JSON payload: https://arduinojson.org/v5/doc/deserialization/
+    const int capacity = JSON_OBJECT_SIZE(10);
+    StaticJsonBuffer<capacity> jsonParser;
+    JsonObject& shadow_doc = jsonParser.parseObject((char *)payload);
+    if(shadow_doc.success()){
+      const char* lamp_state = shadow_doc["state"]["lamp"];
+      Serial.println(lamp_state);
+      if(strcmp(lamp_state,"ON")==0){
+        digitalWrite(red_led_pin, HIGH);
+        Serial.println("LED state changed to ON");
+      }else{
+        digitalWrite(red_led_pin, LOW);
+        Serial.println("LED state changed to OFF");
+      }
+    }else{
+      Serial.println("Error parsing JSON payload");
+    }
   }
   Serial.println();
 }
