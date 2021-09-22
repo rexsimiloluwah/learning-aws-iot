@@ -49,7 +49,8 @@ mqtt_client.subscribe(SUB_TOPIC, QOS, on_message_callback)
 def generate_fake_payload(device_name: str) -> OrderedDict:
     """ Function to generate fake payload """
     payload = OrderedDict()
-    payload["device_id"]=device_name 
+    device_ids = ["sample-device-1","sample-device-2","sample-device-3"]
+    payload["device_id"]= random.choice(device_ids)
     payload["battery_soc"]=random.randint(0,100)
     payload["battery_soh"]=random.randint(0,100)
     payload["device_status"]=random.choice(["offline","online","inverter_not_detected"])

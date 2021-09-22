@@ -17,9 +17,9 @@
 // Pin mapping
 const uint8_t dht_pin = 4;
 const uint8_t green_led_pin = 5; // Indicator
-const uint8_t red_led_pin = 12; // Led pin controlled via AWS IoT
+const uint8_t relay_pin = 12; // Led pin controlled via AWS IoT
 unsigned long last_publish = 0;
-unsigned long publish_interval = 10000; // 10s
+unsigned long publish_interval = 45000; // 10s
 
 // WiFi connection credentials 
 const char* ssid = "Algorhythm";
@@ -76,11 +76,11 @@ void setup() {
   // put your setup code here, to run once:
   Serial.begin(BAUD_RATE);
   pinMode(green_led_pin, OUTPUT);
-  pinMode(red_led_pin, OUTPUT);
+  pinMode(relay_pin, OUTPUT);
   // Set the initial state of the Green led pin to HIGH (+3.3V)
   digitalWrite(green_led_pin, HIGH);
   // Set initial state of the Red led pin to LOW (0V)
-  digitalWrite(red_led_pin, LOW);
+  digitalWrite(relay_pin, LOW);
   connectToWiFi();
   setupAWSIoTConnection();
 
@@ -140,17 +140,23 @@ void loop() {
   }
   humidity = (float)event.relative_humidity;
 
+  // LDR 
+  int sensor_value = analogRead(AO)
+  // adc conversion
+  float ldr_voltage = ((float)sensor_value * 5) /1023.0
+
   // This buffer holds the serialized result for version 5 (https://arduinojson.org/v5/doc/serialization/)
   char output[128];
   // The goal here is to publish the sensor readings to the MQTT topic every 10 seconds
   if (millis() - last_publish > publish_interval) {
     StaticJsonBuffer<256> jsonBuffer;  // Use DynamicJsonBuffer to store in heap instead
     JsonObject& payload = jsonBuffer.createObject();
-    payload["sensorName"] = "dht11";
+    payload["deviceName"] = "esp8266-mcu";
     payload["temperature"] = temperature;
     payload["humidity"] = humidity;
+    payload["ldrVoltage"] = ldr_voltage;
     payload.printTo(output);
-    pubSubClient.publish("sensor/dht11/data", output);
+    pubSubClient.publish("esp8266-mcu/sensors/data", output);
     Serial.print("Published: ");
     payload.prettyPrintTo(Serial);
     last_publish = millis();
@@ -177,7 +183,7 @@ void pubSubConnectCheck(void){
     // After connection is successful
     Serial.println("Successful established PUB/SUB connection with AWS IoT MQTT Broker.");
     // Subscribe to Shadow Update topic
-    pubSubClient.subscribe("$aws/things/sample-device/shadow/update/delta");
+    pubSubClient.subscribe("$aws/things/esp8266-mcu/shadow/update/delta");
   }
   pubSubClient.loop();
 }
@@ -203,7 +209,7 @@ void msgReceived(char* topic, byte* payload, unsigned int length) {
   for (int i = 0; i < length; i++) {
     Serial.print((char)payload[i]);
   }
-  if(strcmp(topic,"$aws/things/sample-device/shadow/update/delta")==0){
+  if(strcmp(topic,"$aws/things/esp8266-mcu/shadow/update/delta")==0){
     Serial.println("Device Shadow Document has been updated");
     // Deserialization of the received JSON payload: https://arduinojson.org/v5/doc/deserialization/
     const int capacity = JSON_OBJECT_SIZE(10);
@@ -212,12 +218,12 @@ void msgReceived(char* topic, byte* payload, unsigned int length) {
     if(shadow_doc.success()){
       const char* lamp_state = shadow_doc["state"]["lamp"];
       Serial.println(lamp_state);
-      if(strcmp(lamp_state,"ON")==0){
-        digitalWrite(red_led_pin, HIGH);
-        Serial.println("LED state changed to ON");
+      if(strcmp(lamp_state,"ON")){
+        digitalWrite(relay_pin, HIGH);
+        Serial.println("LAMP state changed to ON");
       }else{
-        digitalWrite(red_led_pin, LOW);
-        Serial.println("LED state changed to OFF");
+        digitalWrite(relay_pin, LOW);
+        Serial.println("LAMP state changed to OFF");
       }
     }else{
       Serial.println("Error parsing JSON payload");
