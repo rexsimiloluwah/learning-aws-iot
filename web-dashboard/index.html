@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.12/css/weather-icons.min.css">
+    <link rel="stylesheet" href="dist/css/style.css">
+    <title>ESP8266 IoT Dashboard</title>
+</head>
+<body>
+    <nav>
+        <div class="nav__brand">
+            Device Monitor
+        </div>
+
+        <div class="navbar">
+            <ul class="nav__links">
+                <li><a href="">Home</a></li>
+                <li><a href="">Analytics</a></li>
+                <li><a href="http://github.com/rexsimiloluwah" target="_blank" rel="noopener noreferrer">Github</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="monitor">
+        <div class="monitor__container">
+            <div class="row">
+            <div class="card">
+                <div class="header">
+                    <div class="name">Temperature</div>
+                    <div class="more"><i class="wi wi-day-cloudy"></i></div>
+                </div>
+                <div class="body">
+                    <div class="value number">23 <sup>&#x2103;</sup></div>
+                    <div class="description">Broken Clouds</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="header">
+                    <div class="name">Humidity</div>
+                    <div class="more"><i class="wi wi-raindrop"></i></div>
+                </div>
+                <div class="body">
+                    <div class="value number">40 <sup>%</sup></div>
+                    <div class="description">Highly Humid</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="header">
+                    <div class="name">Light Intensity</div>
+                    <div class="more"><i class="wi wi-horizon-alt"></i></div>
+                </div>
+                <div class="body">
+                    <!-- SVG Progress bar -->
+                    <div class="value">
+                    <div class="progress__circle">
+                        <svg class="svg" x="0px" y="0px" width="150px" height="150px">
+                            <circle class="svg-circle__outer" cx="75" cy="75" r="70" stroke-width="10"></circle>
+                            <circle class="svg-circle__inner" cx="75" cy="75" r="70" stroke-width="10"></circle>
+                        </svg>
+                        <span class="progress-circle__text">20%</span>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="header">
+                    <div class="name">Switch LAMP 1</div>
+                    <div class="more"><i class="fas fa-lightbulb"></i></div>
+                </div>
+                <div class="body">
+                    <!-- Rounded Toggle Switch -->
+                    <label class="switch">
+                        <input type="checkbox">
+                        <span class="slider round"></span>
+                    </label>
+                    <div class="description">Toggle to turn <strong><span class="lamp1-state">OFF</span></strong> the LAMP</div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <script src="https://kit.fontawesome.com/292a3d173a.js" crossorigin="anonymous"></script>
+    <script src="assets/js/aws-iot-sdk-browser-bundle-min.js"></script>
+    <script src="config/aws-configuration.js"></script>
+    <script src="./main.js"></script>
+</body>
+</html>

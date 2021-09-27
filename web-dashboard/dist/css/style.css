@@ -1,0 +1,280 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Open Sans', sans-serif;
+  background: #c7d7f0;
+}
+
+nav {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  background: #fff;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: .8rem 2rem;
+}
+
+.nav__brand {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.nav__links {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  list-style: none;
+}
+
+.nav__links li {
+  padding: 0 1rem;
+}
+
+.nav__links li a {
+  color: #000;
+  text-decoration: none;
+}
+
+.nav__links li a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+section {
+  margin: 2.5rem auto;
+}
+
+.monitor__container,
+.control__container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 80%;
+  margin: auto;
+}
+
+.monitor__container .row,
+.control__container .row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.card {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  background: #fff;
+  -ms-flex-preferred-size: 48%;
+      flex-basis: 48%;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-line-pack: center;
+      align-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin: .5rem auto;
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 4px 24px #e6e6e6;
+          box-shadow: 0px 4px 24px #e6e6e6;
+  -webkit-transition: .1s ease-out;
+  transition: .1s ease-out;
+}
+
+.card:hover {
+  -webkit-transform: scale(1.04);
+          transform: scale(1.04);
+  border: 1px solid white;
+}
+
+.card:hover > .header .more {
+  color: #ff8000;
+}
+
+.card .header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -ms-flex-preferred-size: 1;
+      flex-basis: 1;
+  padding: .5rem 1rem;
+  width: 100%;
+  border-bottom: 1px solid #f2f2f2;
+}
+
+.card .header .more {
+  font-size: 18px;
+  color: #c7d7f0;
+  cursor: pointer;
+}
+
+.card .header .more:hover {
+  color: #ff8000;
+}
+
+.card .body {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -ms-flex-preferred-size: 1;
+      flex-basis: 1;
+  padding: 1rem;
+  margin: auto;
+  text-align: center;
+}
+
+.card .body .description {
+  color: #b3b3b3;
+  line-height: 5rem;
+}
+
+.card .value.number {
+  color: #ff8000;
+  font-weight: bold;
+  font-size: 45px;
+  line-height: 5rem;
+}
+
+.progress__circle .svg {
+  display: block;
+  margin: auto;
+  max-width: 100%;
+  -webkit-transform: rotate(-90deg);
+          transform: rotate(-90deg);
+}
+
+.progress__circle .svg .svg-circle__outer {
+  fill: none;
+  stroke: #eff4fb;
+}
+
+.progress__circle .svg .svg-circle__inner {
+  stroke: #ccc;
+  stroke-dasharray: 440;
+  stroke-dashoffset: 400;
+  fill: none;
+  stroke: #ff8000;
+  -webkit-animation: animate-progress 1s linear forwards;
+          animation: animate-progress 1s linear forwards;
+}
+
+@-webkit-keyframes animate-progress {
+  from {
+    stroke-dashoffset: 440;
+  }
+}
+
+@keyframes animate-progress {
+  from {
+    stroke-dashoffset: 440;
+  }
+}
+
+.progress__circle .progress-circle__text {
+  position: absolute;
+  top: 40%;
+  left: 38%;
+  font-weight: bold;
+  font-size: 24px;
+  color: #ff8000;
+}
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: block;
+  margin: auto;
+  width: 60px;
+  height: 34px;
+  /* Hide default HTML checkbox */
+  /* The slider */
+  /* Rounded sliders */
+}
+
+.switch .switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.switch .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.switch .slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.switch input:checked + .slider {
+  background-color: #ff8000;
+}
+
+.switch input:focus + .slider {
+  -webkit-box-shadow: 0 0 1px #ff8000;
+          box-shadow: 0 0 1px #ff8000;
+}
+
+.switch input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+.switch .slider.round {
+  border-radius: 34px;
+}
+
+.switch .slider.round:before {
+  border-radius: 50%;
+}
+/*# sourceMappingURL=style.css.map */

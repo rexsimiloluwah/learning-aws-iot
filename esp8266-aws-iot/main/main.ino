@@ -17,6 +17,7 @@
 // Pin mapping
 const uint8_t dht_pin = 4;
 const uint8_t green_led_pin = 5; // Indicator
+const uint8_t ldr_pin = A0; // LDR Pin
 const uint8_t relay_pin = 12; // Led pin controlled via AWS IoT
 unsigned long last_publish = 0;
 unsigned long publish_interval = 45000; // 10s
@@ -136,14 +137,14 @@ void loop() {
   }else{
     Serial.print("Humidity: ");
     Serial.print((float)event.relative_humidity);
-    Serial.println("°F");
+    Serial.println("%");
   }
   humidity = (float)event.relative_humidity;
 
   // LDR 
-  int sensor_value = analogRead(AO)
+  int sensor_value = analogRead(ldr_pin);
   // adc conversion
-  float ldr_voltage = ((float)sensor_value * 5) /1023.0
+  float ldr_voltage = ((float)sensor_value * 5) /1023.0;
 
   // This buffer holds the serialized result for version 5 (https://arduinojson.org/v5/doc/serialization/)
   char output[128];
@@ -180,9 +181,10 @@ void pubSubConnectCheck(void){
       Serial.print(".");
       pubSubClient.connect("esp8266-mcu");
     }
-    // After connection is successful
+     // After connection is successful
     Serial.println("Successful established PUB/SUB connection with AWS IoT MQTT Broker.");
     // Subscribe to Shadow Update topic
+    pubSubClient.subscribe("esp8266-mcu/in/data");
     pubSubClient.subscribe("$aws/things/esp8266-mcu/shadow/update/delta");
   }
   pubSubClient.loop();
@@ -218,7 +220,7 @@ void msgReceived(char* topic, byte* payload, unsigned int length) {
     if(shadow_doc.success()){
       const char* lamp_state = shadow_doc["state"]["lamp"];
       Serial.println(lamp_state);
-      if(strcmp(lamp_state,"ON")){
+      if(strcmp(lamp_state,"ON")==0){
         digitalWrite(relay_pin, HIGH);
         Serial.println("LAMP state changed to ON");
       }else{

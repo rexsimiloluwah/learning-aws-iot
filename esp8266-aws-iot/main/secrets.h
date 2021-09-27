@@ -3,7 +3,7 @@
 
 
 // Define the AWS IoT endpoint 
-const char* aws_iot_endpoint = "<your-endpoint>.amazonaws.com";
+const char* aws_iot_endpoint = "a2gsgmc0yrlbzp-ats.iot.us-west-2.amazonaws.com";
 
 // AWS IoT Core Root CA
 // PROGMEM is used to place the string in Flash memory and load it in RAM when needed

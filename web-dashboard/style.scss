@@ -1,0 +1,227 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+$primary-color-light: #c7d7f0;
+$primary-color-dark: #1DA1F2;
+$secondary-color-light: lighten(#ff8000, 90%);
+$secondary-color-dark: 	#ff8000;
+
+*{
+    box-sizing: border-box;
+}
+
+body,html{
+    margin: 0;
+    padding: 0;
+    font-family: 'Open Sans', sans-serif;
+    background: $primary-color-light
+}
+
+nav{
+    display: flex;
+    background: #fff;
+    justify-content: space-between;
+    align-items: center;
+    padding: .8rem 2rem;
+}
+
+.nav__brand{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.nav__links{
+    display: inline-flex;
+    list-style: none;
+    li{
+        padding: 0 1rem;
+        a{
+            color: #000;
+            text-decoration: none;
+            &:hover{
+                text-decoration: underline;
+                text-underline-offset: 3px;
+            }
+        }
+    }
+}
+
+section{
+    margin: 2.5rem auto;
+}
+
+.monitor__container,
+.control__container{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 80%;
+    margin: auto;
+
+    .row{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+}
+
+.card{
+    display: flex;
+    background: #fff;
+    flex-basis: 48%;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    margin: .5rem auto;
+    border-radius: 5px;
+    box-shadow: 0px 4px 24px lighten(rgb(0,0,0), 90%);
+    transition: .1s ease-out;
+
+    &:hover{
+        transform: scale(1.04);
+        border: 1px solid $secondary-color-light;
+        > .header .more{
+            color: $secondary-color-dark;;
+        }
+    }
+
+    .header{
+        display: flex;
+        justify-content: space-between;
+        flex-basis: 1;
+        padding: .5rem 1rem;
+        width: 100%;
+        border-bottom: 1px solid lighten(rgb(0,0,0), 95%);
+        .more{
+            font-size: 18px;
+            color: $primary-color-light;
+            cursor: pointer;
+            &:hover{
+                color: $secondary-color-dark;
+            }
+        }
+    }
+
+    .body{
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        flex-basis: 1;
+        padding: 1rem;
+        margin: auto;
+        text-align: center;
+
+        .description{
+            color: lighten(#000, 70%);
+            line-height: 5rem;
+        }
+    }
+
+    .value{
+        &.number{
+            color: $secondary-color-dark;
+            font-weight: bold;
+            font-size: 45px;
+            line-height: 5rem;
+        }
+
+    } 
+      
+}
+
+.progress__circle{
+    .svg {
+        display: block;
+        margin: auto;
+        max-width: 100%;
+        transform: rotate(-90deg);
+    
+        .svg-circle__outer {
+            fill: none;
+            stroke: lighten($primary-color-light, 10);
+        }
+    
+        .svg-circle__inner {
+            stroke: #ccc;
+            stroke-dasharray: 440;
+            stroke-dashoffset: 400;
+            fill: none;
+            stroke: $secondary-color-dark;
+            animation: animate-progress 1s linear forwards;
+        }
+        
+        @keyframes animate-progress{
+            from{
+                stroke-dashoffset: 440;
+            }
+        }
+    }    
+    .progress-circle__text {
+        position: absolute;
+        top: 40%;
+        left: 38%;
+        font-weight: bold;
+        font-size: 24px;
+        color: $secondary-color-dark;
+     }
+}
+
+/* The switch - the box around the slider */
+.switch {
+    position: relative;
+    display: block;
+    margin: auto;
+    width: 60px;
+    height: 34px;
+    /* Hide default HTML checkbox */
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+    /* The slider */
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    input:checked + .slider {
+        background-color: $secondary-color-dark;
+    }
+
+    input:focus + .slider {
+        box-shadow: 0 0 1px $secondary-color-dark;
+    }
+
+    input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+
+    .slider.round:before {
+        border-radius: 50%;
+    }
+}
+  
