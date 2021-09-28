@@ -20,7 +20,7 @@ const uint8_t green_led_pin = 5; // Indicator
 const uint8_t ldr_pin = A0; // LDR Pin
 const uint8_t relay_pin = 12; // Led pin controlled via AWS IoT
 unsigned long last_publish = 0;
-unsigned long publish_interval = 45000; // 10s
+unsigned long publish_interval = 20000; // 20s
 
 // WiFi connection credentials 
 const char* ssid = "Algorhythm";
@@ -148,7 +148,7 @@ void loop() {
 
   // This buffer holds the serialized result for version 5 (https://arduinojson.org/v5/doc/serialization/)
   char output[128];
-  // The goal here is to publish the sensor readings to the MQTT topic every 10 seconds
+  // The goal here is to publish the sensor readings to the MQTT topic every {publish_interval} seconds
   if (millis() - last_publish > publish_interval) {
     StaticJsonBuffer<256> jsonBuffer;  // Use DynamicJsonBuffer to store in heap instead
     JsonObject& payload = jsonBuffer.createObject();
