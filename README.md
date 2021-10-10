@@ -54,7 +54,7 @@ $ cd esp8266-aws-iot
 
 3. Connect the components following the circuit diagram (`Circuit diagram to be provided soon`)
 
-4. Copy the `main.ino` file to your Arduino IDE, Upload the sketch to the microcontroller.
+4. Copy the code in [main.ino](https://github.com/rexsimiloluwah/learning-aws-iot/esp8266-aws-iot/main.ino) file to your Arduino IDE, Upload the sketch to the microcontroller.
 
 ## To run the web dashboard 
 1. Clone the repository to access the HTML,CSS, and JavaScript files: -
