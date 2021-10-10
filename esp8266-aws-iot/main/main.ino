@@ -81,7 +81,7 @@ void setup() {
   // Set the initial state of the Green led pin to HIGH (+3.3V)
   digitalWrite(green_led_pin, HIGH);
   // Set initial state of the Red led pin to LOW (0V)
-  digitalWrite(relay_pin, LOW);
+  digitalWrite(relay_pin, HIGH); //reverse logic
   connectToWiFi();
   setupAWSIoTConnection();
 
@@ -221,10 +221,10 @@ void msgReceived(char* topic, byte* payload, unsigned int length) {
       const char* lamp_state = shadow_doc["state"]["lamp"];
       Serial.println(lamp_state);
       if(strcmp(lamp_state,"ON")==0){
-        digitalWrite(relay_pin, HIGH);
+        digitalWrite(relay_pin, LOW);
         Serial.println("LAMP state changed to ON");
       }else{
-        digitalWrite(relay_pin, LOW);
+        digitalWrite(relay_pin, HIGH);
         Serial.println("LAMP state changed to OFF");
       }
     }else{

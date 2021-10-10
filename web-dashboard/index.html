@@ -16,15 +16,18 @@
 
         <div class="navbar">
             <ul class="nav__links">
-                <li><a href="">Home</a></li>
-                <li><a href="">Analytics</a></li>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="analytics.html">Analytics</a></li>
                 <li><a href="http://github.com/rexsimiloluwah" target="_blank" rel="noopener noreferrer">Github</a></li>
             </ul>
         </div>
     </nav>
 
+    <div id="loader"></div>
+    
     <section class="monitor">
         <div class="monitor__container">
+            <p class="last-publish">Last Publish: <span></span></p>
             <div class="row">
             <div class="card">
                 <div class="header">
@@ -32,7 +35,7 @@
                     <div class="more"><i class="wi wi-day-cloudy"></i></div>
                 </div>
                 <div class="body">
-                    <div class="value number">23 <sup>&#x2103;</sup></div>
+                    <div class="value number"></div>
                     <div class="description">Broken Clouds</div>
                 </div>
             </div>
@@ -42,7 +45,7 @@
                     <div class="more"><i class="wi wi-raindrop"></i></div>
                 </div>
                 <div class="body">
-                    <div class="value number">40 <sup>%</sup></div>
+                    <div class="value number"></div>
                     <div class="description">Highly Humid</div>
                 </div>
             </div>
@@ -59,7 +62,7 @@
                             <circle class="svg-circle__outer" cx="75" cy="75" r="70" stroke-width="10"></circle>
                             <circle class="svg-circle__inner" cx="75" cy="75" r="70" stroke-width="10"></circle>
                         </svg>
-                        <span class="progress-circle__text">20%</span>
+                        <span class="progress-circle__text"></span>
                     </div>
                     </div>
                 </div>
@@ -84,6 +87,7 @@
 
     <script src="https://kit.fontawesome.com/292a3d173a.js" crossorigin="anonymous"></script>
     <script src="assets/js/aws-iot-sdk-browser-bundle-min.js"></script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.996.0.min.js"></script>
     <script src="config/aws-configuration.js"></script>
     <script src="./main.js"></script>
 </body>

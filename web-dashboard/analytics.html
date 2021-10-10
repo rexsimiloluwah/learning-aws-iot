@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.12/css/weather-icons.min.css">
+    <link rel="stylesheet" href="dist/css/style.css">
+    <title>ESP8266 IoT Dashboard</title>
+</head>
+<body>
+    <nav>
+        <div class="nav__brand">
+            Device Monitor
+        </div>
+
+        <div class="navbar">
+            <ul class="nav__links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="analytics.html">Analytics</a></li>
+                <li><a href="http://github.com/rexsimiloluwah" target="_blank" rel="noopener noreferrer">Github</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div id="loader"></div>
+    <section class="analytics">
+        <div class="chart__container">
+            <div class="card" style="width:100%;margin:0;">
+                <div class="header" style="display:flex;justify-content: space-between;align-items:center;padding: .5rem 2rem;">
+                    <div class="field__select">
+                        <select name="field" id="field">
+                            <option value="temperature">Temperature</option>
+                            <option value="humidity">Humidity</option>
+                            <option value="ldrVoltage">Light Intensity</option>
+                        </select>
+                    </div>
+                </div>
+                <canvas id="chart" style="width:100%;margin: 0;text-align: center;padding: 1rem"></canvas>
+            </div>
+        </div>
+    </section>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://kit.fontawesome.com/292a3d173a.js" crossorigin="anonymous"></script>
+    <script src="assets/js/aws-iot-sdk-browser-bundle-min.js"></script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.996.0.min.js"></script>
+    <script src="config/aws-configuration.js"></script>
+    <script>
+        const AWS = require('aws-sdk')
+        const AWSIoTData = require('aws-iot-device-sdk');
+
+        // Query selectors
+        const loader = document.querySelector("#loader");
+        const analyticsContainer = document.querySelector(".analytics");
+        const fieldSelect = document.querySelector(".field__select select");
+        let chart
+
+        const fetchSensorDataFromDynamo = async(page=1, limit=100) => {
+            const config = {
+                headers: {
+                },
+            }
+            const apiEndpoint = `https://weoi0wjusi.execute-api.us-west-2.amazonaws.com/default/data?page=${page.toString()}&limit=${limit.toString()}`;
+            const response = await fetch(apiEndpoint, config);
+            const {data} = await response.json();
+            return data.reverse()
+        }
+
+        const visualizeData = (data, field, count=100) => {
+            // Initialize chart
+            const timestamps = data.map((item,id) => new Date(parseInt(item.timestamp)).toISOString())
+            const values = data.map(item => {
+                return item.sensorData[field]
+            })
+
+            console.log(values)
+
+            chart = new Chart("chart", {
+                type: "line",
+                data: {
+                    text: field,
+                    labels: timestamps,  // x-axis
+                    datasets: [{
+                    fill: false,
+                    lineTension: 0,
+                    backgroundColor: "#ff8000",
+                    borderColor: "#1DA1F2",
+                    data: values // y-axis
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{ticks: {minRotation: 90, maxRotation:90}}],
+                        xAxes: [{
+                            type: 'time',
+                            ticks: {
+                                autoSkip:false,
+                                minRotation: 0,
+                                maxRotation:0
+                        }}],
+                    },
+                    plugins: {
+                        legend: {
+                            display: false,
+                            text: field
+                        }
+                    }
+                }
+            });
+        }
+
+        fieldSelect.addEventListener('change', async (e) => {
+            if (chart) { chart.destroy() }
+            console.log(e.target.value);
+            const data = await fetchSensorDataFromDynamo();
+            visualizeData(data, e.target.value);
+        })
+
+        window.addEventListener('DOMContentLoaded', async () => {
+            const data = await fetchSensorDataFromDynamo();
+            console.log(data.map((item) => item.sensorData.temperature))
+            visualizeData(data, 'temperature',);
+            loader.style.display = 'none';
+            analyticsContainer.style.display = "block";
+        })
+    </script>
+</body>
+</html>

@@ -1,3 +1,4 @@
+@import 'assets/css/global.scss';
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
 
 $primary-color-light: #c7d7f0;
@@ -47,9 +48,16 @@ nav{
 
 section{
     margin: 2.5rem auto;
+    &.monitor{
+        display: none;
+    }
+    &.analytics{
+        display: none;
+    }
 }
 
 .monitor__container,
+.chart__container,
 .control__container{
     display: flex;
     justify-content: center;
@@ -63,6 +71,7 @@ section{
         flex-wrap: wrap;
     }
 }
+
 
 .card{
     display: flex;
@@ -225,3 +234,37 @@ section{
     }
 }
   
+.last-publish{
+    font-size: 18px;
+}
+
+#loader {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 1;
+    width: 120px;
+    height: 120px;
+    margin: -76px 0 0 -76px;
+    border: 7px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 7px solid $secondary-color-dark;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+}
+  
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.field__select{
+    select{
+        padding: 1rem;
+    }
+}
