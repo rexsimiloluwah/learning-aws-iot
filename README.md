@@ -2,10 +2,10 @@
 AWS provides IoT services for building end-to-end IoT solutions that connect and manage billions of devices. It also provides easy integration with other AWS services for storage (i.e. DynamoDB), analytics (i.e. AWS IoT Analytics, AWS Data Pipeline), visualization (i.e. AWS Quicksight), Machine learning (i.e. AWS Sagemaker), streaming (i.e. AWS Kinesis), and serverless functions using AWS Lambda. Connected devices such as sensors, actuators, microcontrollers can connect to AWS IoT core via HTTPs,MQTT, and Websockets protocol. AWS IoT also provides SDKs for different languages and proper documentation to navigate each service. 
 
 ### Simple examples
-- [Using Python SDK for communicating with AWS IoT core via MQTT publish/subscribe mechanism](https://github.com/rexsimiloluwah/learning-aws-iot/python-aws-iot)
-- [Using Node.js and JavaScript SDK for communicating with AWS IoT core, with IoT rules interfacing DynamoDB and SNS for mail notifications](https://github.com/rexsimiloluwah/learning-aws-iot/nodejs-aws-iot)
-- [Integrating Lambda functions with AWS IoT example](https://github.com/rexsimiloluwah/learning-aws-iot/lambda-nodejs-example)
-- [Visualization of data from AWS IoT Analytics pipeline using Python and Matplotlib](https://github.com/rexsimiloluwah/learning-aws-iot/aws-iot-analytics.py)
+- [Using Python SDK for communicating with AWS IoT core via MQTT publish/subscribe mechanism](https://github.com/rexsimiloluwah/learning-aws-iot/tree/master/python-aws-iot)
+- [Using Node.js and JavaScript SDK for communicating with AWS IoT core, with IoT rules interfacing DynamoDB and SNS for mail notifications](https://github.com/rexsimiloluwah/learning-aws-iot/tree/master/nodejs-aws-iot)
+- [Integrating Lambda functions with AWS IoT example](https://github.com/rexsimiloluwah/learning-aws-iot/tree/master/lambda-nodejs-example)
+- [Visualization of data from AWS IoT Analytics pipeline using Python and Matplotlib](https://github.com/rexsimiloluwah/learning-aws-iot/tree/master/aws-iot-analytics.py)
 
 ### Demo Project
 Building a simple serverless IoT system using NodeMCU (based on ESP8266 Wi-Fi SoC) and AWS IoT.
@@ -54,7 +54,7 @@ $ cd esp8266-aws-iot
 
 3. Connect the components following the circuit diagram (`Circuit diagram to be provided soon`)
 
-4. Copy the code in [main.ino](https://github.com/rexsimiloluwah/learning-aws-iot/esp8266-aws-iot/main.ino) file to your Arduino IDE, Upload the sketch to the microcontroller.
+4. Copy the code in [main.ino](https://github.com/rexsimiloluwah/learning-aws-iot/tree/master/esp8266-aws-iot/main.ino) file to your Arduino IDE, Upload the sketch to the microcontroller.
 
 ## To run the web dashboard 
 1. Clone the repository to access the HTML,CSS, and JavaScript files: -
